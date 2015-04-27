@@ -1,5 +1,4 @@
-# asip
-**Arduino Service Interface Protocol -  Sparkfun Weather Station service**
+# Arduino Service Interface Protocol (ASIP) - Sparkfun Weather Station service
 
 asipSparkfunWS aims to support the Sparkfun Weather Shield for Arduino through an ASIP I2C service that provides  IMU (Inertial Measurement Unit) data.
 
