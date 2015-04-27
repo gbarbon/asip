@@ -7,3 +7,9 @@ Sensors to be supported are:
     GP635T - GPS module(optional)
     rain (optional)
     wind (optional)
+
+Libraries
+This project uses external libraries, not committed in the repository. 
+Please refer to respective repositories:
+   https://github.com/sparkfun/HTU21D_Breakout for the HTU21D humidity sensor
+   https://github.com/sparkfun/MPL3115A2_Breakout for the MPL3115A2 barometric pressure sensor
