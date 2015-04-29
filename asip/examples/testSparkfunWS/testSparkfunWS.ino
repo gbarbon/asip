@@ -6,7 +6,8 @@
 
 #include <Wire.h>     // needed for I2C
 #include "asipSparkfunWS.h"  // Inertial measurement services 
-#include "MPL3115A2.h"
+#include "MPL3115A2.h" // Altitude, Pressure and Temperature sensor
+#include "HTU21D.h" // Humidity and Temperature sensor
 
 // some defines for some test hardware
 #define SWITCH 13
@@ -35,14 +36,19 @@ asipCHECK_PINS(servoPins[NBR_SERVOS]);  // compiler will check if the number of 
 
 bool i2cStarted = false; // flag to indcate that i2c started
 
+// Note: latitue and pressure service must not be used together (they are both using the same sensor, so a mode switch is required)!
+//AltitudeClass altitude(id_ALTITUDE_SERVICE); 
 PressureClass pressure(id_PRESSURE_SERVICE);
+HumidityClass humidity(id_HUMIDITY_SERVICE);
 
-asipServoClass asipServos(id_SERVO_SERVICE, NO_EVENT);
+//asipServoClass asipServos(id_SERVO_SERVICE, NO_EVENT);
 
 asipService services[] = { 
                                  &asipIO, // the core class for pin level I/O
-                                 &pressure,
-                                 &asipServos };
+                                 //&altitude,
+                                 &humidity,
+                                 &pressure};
+                                 //&asipServos };
 
 
 void setup() {
@@ -55,9 +61,11 @@ void setup() {
   asip.reserve(SERIAL_RX_PIN);  // reserve pins used by the serial port 
   asip.reserve(SERIAL_TX_PIN);  // these defines are in asip/boards.h 
 
-  pressure.begin(NBR_PRESSURE_FIELDS,startI2C); // pressure, tempearture and altitude
+  //altitude.begin(NBR_ALTITUDE_FIELDS,startI2C); // altitude
+  pressure.begin(NBR_PRESSURE_FIELDS,startI2C); // pressure and tempearture (C and F)
+  humidity.begin(NBR_HUMIDITY_FIELDS,startI2C); // humidity and temperature
   
-  asipServos.begin(NBR_SERVOS,servoPins,myServos);
+  //asipServos.begin(NBR_SERVOS,servoPins,myServos);
   asip.sendPinModes(); // for debug
   asip.sendPortMap();
   for(int i=0; i< asipServiceCount(services); i++)
